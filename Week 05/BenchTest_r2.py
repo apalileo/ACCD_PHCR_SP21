@@ -41,6 +41,7 @@ userDistThresh = 6
 pomoInt25 = 5
 pomoInt50 = 10
 
+# rewrite this to flash the pixels without sleep if you can
 def flash_neopixels():
     pixels.fill(0)
     pixels.show()
@@ -49,10 +50,18 @@ def flash_neopixels():
     pixels.show()
     time.sleep(0.2)
 
+# mode names
+OFF = 0
+ON_LAMP = 1
+ON_POMO = 2
+POMO_EXP = 3
+
+
 # loop forever
 while True:
 
     # sonar.distance outputs in cm, let's convert that to inches
+
     distInches = sonar.distance * 0.3937
 
     # check for button press
@@ -71,21 +80,23 @@ while True:
 
     # assign modes
     # mode 0 is off
-    if lightMode == 0:
+    if lightMode == OFF:
         led50.value = False
         pixels.fill(0)
         pixels.show()
 
     # mode 1 is lamp only
-    if lightMode == 1:
+    if lightMode == ON_LAMP:
         pixels.fill(WHITE)
         pixels.show()
 
     # mode 2 is the 25/5 Pomodoro interval
-    if lightMode == 2:
+    if lightMode == ON_POMO:
         led25.value = True
         pixels.fill(BLUE)
         pixels.show()
+
+        # this could be another mode
         if time.monotonic() >= timeNow + pomoInt25:
             if distInches <= userDist + userDistThresh:
                 flash_neopixels()
@@ -100,6 +111,8 @@ while True:
         led50.value = True
         pixels.fill(BLUE)
         pixels.show()
+
+        # this could be another mode
         if time.monotonic() >= timeNow + pomoInt50:
             if distInches <= userDist + userDistThresh:
                 flash_neopixels()
