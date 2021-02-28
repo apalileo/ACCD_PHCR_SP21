@@ -25,7 +25,7 @@ led50.direction = Direction.OUTPUT
 # ultrasonic sensor
 sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.A1, echo_pin=board.A2)
 
-# on-board neopixels
+# onboard neopixels
 pixels = neopixel.NeoPixel(board.NEOPIXEL, 10,
                            brightness=0.2, auto_write=False)
 
