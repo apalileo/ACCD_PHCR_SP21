@@ -47,11 +47,15 @@ RED = (255, 125, 125)
 # adding in a brightness variable for controlling later
 pixelBrightness = 0.2
 
+# flashing the neopixels on Pomodoro interval end
+flashInterval = 0.35
+
 # loop forever
 while True:
 
     # convert sonar.distance to inches
     distInches = sonar.distance * 0.3937
+    print(lightMode)
 
     # check for button press
     # button hold returns to LAMP_OFF
@@ -85,6 +89,7 @@ while True:
         led50.value = False
         color = BLUE
         if time.monotonic() >= timeNow + pomoInt:
+            flashTime = time.monotonic() + flashInterval
             userDist = distInches
             lightMode = POMO_EXP
 
@@ -95,9 +100,13 @@ while True:
         led50.value = True
 
     elif lightMode == POMO_EXP:
-        # need to figure out flashing to replace color = WHITE
-        color = WHITE
-        if distInches >= userDist + userDistThresh:
+        if time.monotonic() >= flashTime:
+            if color == 0:
+                color = BLUE
+            elif color == BLUE:
+                color = 0
+            flashTime += flashInterval
+        elif distInches >= userDist + userDistThresh:
             timeNow = time.monotonic()
             lightMode = POMO_BREAK
 
