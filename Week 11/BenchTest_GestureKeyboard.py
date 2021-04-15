@@ -1,6 +1,8 @@
 """
-Gesture and proximity using 2 APDS9960 breakouts
-with custom lib/adafruit_apds9960/apds9960.py file
+Gesture and proximity using 2 APDS9960 breakouts on
+Adafruit Playground Bluefruit board with busio
+and custom lib/adafruit_apds9960/apds9960.py file
+sending WASD and ENTER commands to Adobe Xd prototype
 """
 
 import board
